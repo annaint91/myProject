@@ -1,0 +1,81 @@
+package com.project.test;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.inflectra.spiratest.addons.testnglistener.SpiraTestConfiguration;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.Activity;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+@SpiraTestConfiguration(
+	    url="https://ramat-gan.spiraservice.net",
+	    login="hagai-t",
+	    password="Tamar2014",
+	    projectId=24,
+	    testSetId=280
+	)
+
+public class Example {
+
+	//private static AndroidDriver driver;
+	
+	public static void main(String[] args) throws InterruptedException, MalformedURLException {
+//		File classpathRoot = new File(System.getProperty("user.dir"));
+//		 File appDir = new File(classpathRoot, "/Apps/Amazon/");
+//		 File app = new File(appDir, "in.amazon.mShop.android.shopping.apk");
+		 
+		 File apk;
+		 apk = new File("C:\\data\\Apk\\8.0.3\\android-release8.0.3_19.11.apk");
+		 
+		 
+		 DesiredCapabilities capabilities = new DesiredCapabilities();
+		 capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+		 capabilities.setCapability("deviceName", "R58M40THE7R");
+		 capabilities.setCapability("platformVersion", "9.0");
+		 capabilities.setCapability("platformName", "Android");
+		// capabilities.setCapability(MobileCapabilityType.APP, apk.getAbsolutePath());
+		// capabilities.setCapability("app", apk.getAbsolutePath());
+		
+		  capabilities.setCapability("appPackage", "com.ctconnect.ramatgan");
+		  capabilities.setCapability("appActivity", "com.ctconnect.ramatgan.MainActivity");
+		  
+		  capabilities.setCapability("skipDeviceInitialization", true);
+		  capabilities.setCapability("noReset", true);
+		  
+		 
+		 
+		 
+		  
+		 //capabilities.setCapability("appPackage", "in.amazon.mShop.android.shopping");
+		 //capabilities.setCapability("appActivity", "com.amazon.mShop.home.HomeActivity");
+		 
+		 AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		  
+				 
+		//String we = driver.getPageSource();
+		 driver.manage().timeouts().implicitlyWait(80, TimeUnit.SECONDS);
+		 
+		Thread.sleep(6000);
+		driver.findElement(By.xpath("//*[@text='חפש']")).click();
+		
+		Thread.sleep(3000);
+		driver.findElement(By.className("android.widget.EditText")).sendKeys("ארנונה");
+		
+		 Thread.sleep(2000);
+		 driver.findElement(By.xpath("//*[@text='search']")).click();
+		 Thread.sleep(2000);
+		 driver.quit();
+	}
+
+}

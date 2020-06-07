@@ -1,0 +1,236 @@
+package test;
+
+
+import java.io.IOException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import utility.MobileUtility;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import top.Equipment;
+import top.Login;
+import top.MainPage;
+import top.WoPage;
+import utility.BaseApk;
+
+public class TOPHOT_TEST2{
+
+	private static final Logger log = LogManager.getLogger(TOPHOT_TEST2.class.getName());
+	private static final String ESCAPE_PROPERTY = "org.uncommons.reportng.escape-output";
+
+	
+//	private Timestamp timestamp;
+
+	
+	AndroidDriver<AndroidElement> driver;
+	private Login login;
+	private MainPage main;
+	private String userName, password, environment;
+	private MainPage mp;
+	private WoPage wo;
+	private Equipment eq;
+
+	@BeforeClass
+	public void Tests_prepration() throws Exception {
+
+		String currentDir = MobileUtility.getUserDir(System.getProperty("user.dir"));
+		log.info("system.dir is: " + currentDir);
+		System.setProperty(ESCAPE_PROPERTY, "false");
+
+	}
+
+	@BeforeMethod()
+	public void Test_prepration_BeforeMethod() throws Exception {
+
+		// driver = GeneralUtility.getWebDriver(browser, baseUrl);
+		environment = MobileUtility.getProperty("environment");
+		userName = MobileUtility.getProperty("test_user");
+		password = MobileUtility.getProperty("test_pass");
+		log.info("Start before method...");
+		
+		MobileUtility.endOfTestDelimiter("Start before method...");
+		
+		log.info("Start before method...");
+		BaseApk.removeApp("test", true);
+		driver = BaseApk.capabilities(environment, true);
+		login = new Login(driver);
+		mp = new MainPage(driver);
+		wo = new WoPage(driver);
+		eq = new Equipment(driver);
+		MobileUtility.endOfTestDelimiter("Start before method...");
+	}
+
+	
+	@Test(enabled = true, priority = 1, description="WO process: Replace equipment")
+	public void TOP_POC_1() throws Exception {
+		String methodName = "TOP apk WO Change Equipment";
+
+		log.info("Start: " + methodName);
+		try {
+			
+				Assert.assertTrue(login.doLogin(userName, password));
+				//Assert.assertTrue(login.verifySuccessfullLogin());
+				//Assert.assertTrue(mp.verifyWOexist());
+				mp = new MainPage(driver);
+				Assert.assertTrue(mp.getIntoWO(1));
+				
+				
+				Assert.assertTrue(wo.beginFlowWO("exchange"));
+				Assert.assertTrue(eq.equipmentChange_Remove());
+				
+				log.info("");
+				
+		} catch (AssertionError ar) {
+			log.error("Test result failed on assertion error: Please review log file");
+			MobileUtility.sendReporter("Test result failed on assertion error: ");
+			MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_Assert"));
+			Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			log.error("Test result failed on exception: Please review log file");
+			MobileUtility.sendReporter("Test result Please review the log");
+			MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_assert_verification"));
+			Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+		}
+
+		MobileUtility.sendReporter("Test Finished: "+ methodName  + " Iteration: 1 ");
+		log.info("Test ended: " + methodName +"   Iteration: 1" );
+	}
+	
+	
+	
+	// dataProviderClass = HotDataProviders.class)
+		@Test(enabled = true, priority = 2, description="valid login")
+		public void TOP_POC_2() throws Exception {
+			String methodName = "TOP apk valid login";
+			
+			log.info("Start: " + methodName);
+			try {
+					driver = BaseApk.capabilities("test", false);
+					login = new Login(driver);
+					main = new MainPage(driver);
+					// Technician code in WIZARD: IV4
+					login.doLogin(userName, password);
+					Assert.assertTrue(main.verifyLogin());
+		
+			} catch (AssertionError ar) {
+				log.error("Test result failed on assertion error: Please review log file");
+				MobileUtility.sendReporter("Test result failed on assertion error: ");
+				MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_Assert"));
+				Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				log.error("Test result failed on exception: Please review log file");
+				MobileUtility.sendReporter("Test result Please review the log");
+				MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_assert_verification"));
+				Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+			}
+
+			MobileUtility.sendReporter("Test Finished: "+ methodName  + " Iteration: 1 ");
+			log.info("Test ended: " + methodName +"   Iteration: 1" );
+		}
+
+
+		@Test(enabled = true, priority = 2, description="valid login")
+		public void TOP_POC_3() throws Exception {
+			String methodName = "TOP apk verify WO exist";
+
+			log.info("Start: " + methodName);
+			try {
+					driver = BaseApk.capabilities("test", true);
+					login = new Login(driver);
+					login.doLogin("crmtest100", "asdzxc11");
+					main.verifyWOexist();
+		
+			} catch (AssertionError ar) {
+				log.error("Test result failed on assertion error: Please review log file");
+				MobileUtility.sendReporter("Test result failed on assertion error: ");
+				MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_Assert"));
+				Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				log.error("Test result failed on exception: Please review log file");
+				MobileUtility.sendReporter("Test result Please review the log");
+				MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_assert_verification"));
+				Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+			}
+
+			MobileUtility.sendReporter("Test Finished: "+ methodName  + " Iteration: 1 ");
+			log.info("Test ended: " + methodName +"   Iteration: 1" );
+		}
+
+
+		// dataProviderClass = HotDataProviders.class)
+		@Test(enabled = false, priority = 2, description="invalid login")
+		public void TOP_POC_4() throws Exception {
+			String methodName = "TOP apk invalid login";
+
+			log.info("Start: " + methodName);
+			try {
+
+				driver = BaseApk.capabilities("test", false);
+				login = new Login(driver);
+				
+				driver.findElement(By.id("username")).sendKeys("gozefa");
+
+				//Incorrect password
+				driver.findElement(By.id("password")).sendKeys("mmmm");
+				driver.findElement(By.id("login")).click();
+				Assert.assertTrue(driver.findElement(By.id("dialgo_ok_btn")).isDisplayed());
+				driver.findElement(By.id("dialgo_ok_btn")).click();
+
+
+			} catch (AssertionError ar) {
+				log.error("Test result failed on assertion error: Please review log file");
+				MobileUtility.sendReporter("Test result failed on assertion error: ");
+				MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_Assert"));
+				Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				log.error("Test result failed on exception: Please review log file");
+				MobileUtility.sendReporter("Test result Please review the log");
+				MobileUtility.reportLogScreenshot(MobileUtility.printScreen(driver, "Failed_assert_verification"));
+				Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+			}
+
+			MobileUtility.sendReporter("Test Finished: "+ methodName  + " Iteration: 1 ");
+			log.info("Test ended: " + methodName +"   Iteration: 1" );
+		}
+	
+		
+		
+		
+	@AfterMethod
+	public void Exit_Clean_After_Test_103663() throws IOException, InterruptedException {
+
+		log.info("After method ...");
+		//driver.manage().deleteAllCookies();
+		MobileUtility.endOfTestDelimiter();
+
+	}
+
+	@AfterClass
+	public void End_Exectuion() throws IOException, InterruptedException {
+		log.info("After Class ...");
+	}
+
+	
+	
+	//driver.findElementByXPath("//android.widget.TextView[@text='Preference']").click();
+	//driver.findElementByXPath("//android.widget.TextView[@content-desc='Accessibility']").click();
+	//driver.findElement(By.xpath("//android.widget.TextView[@text='Accessibility Service']")).click();
+}

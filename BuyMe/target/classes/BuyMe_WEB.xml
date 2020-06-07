@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="BuyMe Sanity WEB" parallel="none">
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+	</listeners>
+
+	<test thread-count="1" name="BuyMe_WEB">
+		<classes>
+			<class name="com.project.tests.BuyMe_WEB_Sanity" />
+		</classes>
+	</test> <!-- Test -->
+	
+	
+	
+</suite> <!-- Suite -->

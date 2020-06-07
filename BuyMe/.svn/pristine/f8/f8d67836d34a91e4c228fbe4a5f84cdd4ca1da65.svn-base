@@ -1,0 +1,178 @@
+package com.project.tests;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Scanner;
+
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.touch.TouchActions;
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import com.framework.utility.GeneralUtility;
+import com.project.city.AppDataProviders;
+import com.project.pages.MainPage;
+import com.project.utility.ProjectUtility;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+
+import com.inflectra.spiratest.addons.testnglistener.SpiraTestCase;
+import com.inflectra.spiratest.addons.testnglistener.SpiraTestConfiguration;
+
+@SpiraTestConfiguration(
+	    url="https://ramat-gan.spiraservice.net",
+	    login="hagai-t",
+	    password="Tamar2015",
+	    projectId=8,
+	    testSetId=303
+	)
+
+
+@Test(groups={"seleniumtest"})
+public class SanityProdAppRamatGan {
+	
+	private static final Logger log = LogManager.getLogger(SanityProdAppRamatGan.class.getName());
+	private static final String ESCAPE_PROPERTY = "org.uncommons.reportng.escape-output";
+	
+	private AndroidDriver driver;
+	private String baseUrl, browser;
+	private Timestamp timestamp;
+	private MainPage mp;
+
+	
+	@BeforeClass
+	public void Tests_prepration_BeforeClass() throws Exception {
+
+		//String command = "adb -s emulator-5554 reboot";
+		//Process process = Runtime.getRuntime().exec(command);
+		//process.getInputStream();
+		GeneralUtility.Sleep();
+			
+		String currentDir = GeneralUtility.getUserDir(System.getProperty("user.dir"));
+		browser = "android";
+	
+		System.setProperty(ESCAPE_PROPERTY, "false");
+		log.info("system.dir is: " + currentDir);
+		log.info("Environment: " + ProjectUtility.getProperty("environment"));
+
+		timestamp = new Timestamp(System.currentTimeMillis());
+		log.info("Time stamp: " + timestamp);
+	}
+
+	@BeforeMethod()
+	public void Test_prepration_BeforeMethod() throws Exception {
+		driver = GeneralUtility.getMobileDriver("emulator");
+		mp = new MainPage(driver);
+		GeneralUtility.finishOfTestDelimiter("Start Test");
+	}
+	
+// חיפוש באפליקציה
+	@Test(enabled = true, priority = 2, dataProvider = "iteration", dataProviderClass = AppDataProviders.class)
+	@SpiraTestCase(testCaseId=2027)
+	public void app_search_and_open_doc(int iteration) throws Exception {
+		
+		
+		timestamp = new Timestamp(System.currentTimeMillis());
+		String methodName = "בדיקת חיפוש באפליקציה";
+		GeneralUtility.sendReporter("Test Started at: " + timestamp);
+		log.info(methodName + " Test started: " + timestamp + ", Iteration: " + iteration);
+
+		try {
+			
+			Assert.assertTrue(mp.searchFromApplication("הטבות למקבלי קצבאות הביטוח"));
+			GeneralUtility.reportLogScreenshot(GeneralUtility.printScreen(driver, "process_verification"));
+			//driver.quit();
+	
+			GeneralUtility.sendReporter("Test finish : successfully " + iteration + " " + methodName );
+			log.info("Test finish : successfully " + iteration + " " + methodName );
+
+		} catch (AssertionError ar) {
+			log.error(methodName + " Test result failed on assertion error: Please review log file");
+			GeneralUtility.sendReporter(methodName +  " Test result failed on assertion error: ");
+			GeneralUtility.reportLogScreenshot(GeneralUtility.printScreen(driver, "Failed_Assert " + methodName  ));
+			log.log(Level.ERROR, ar);
+			Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+		} catch (Exception ex) {
+			log.error(methodName + " Test result failed on assertion error: Please review log file");
+			GeneralUtility.sendReporter(methodName +  " Test result failed on assertion error: ");
+			GeneralUtility.reportLogScreenshot(GeneralUtility.printScreen(driver, "Failed_Assert " + methodName  ));
+			log.log(Level.ERROR, ex);
+			Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+		}
+		
+		timestamp = new Timestamp(System.currentTimeMillis());
+		GeneralUtility.sendReporter("Test finish: Iteration: " + iteration +" time:" + timestamp);
+		log.info("Test finish: Iteration: " + iteration +" time:" + timestamp);
+	}
+
+	
+	// סטטוס פניה
+			@Test(enabled = true, priority = 1, dataProvider = "iteration", dataProviderClass = AppDataProviders.class)
+			@SpiraTestCase(testCaseId=2884)
+			public void check_case_status(int iteration) throws Exception {
+				
+				//driver = GeneralUtility.getMobileDriver("emulator");
+				//mp = new MainPage(driver);
+				
+				timestamp = new Timestamp(System.currentTimeMillis());
+				String methodName = "בדיקת סטטוס פניה";
+				GeneralUtility.sendReporter("Test Started at: " + timestamp);
+				log.info(methodName + " Test started: " + timestamp + ", Iteration: " + iteration);
+
+				try {
+					GeneralUtility.Sleep(5);
+					Assert.assertTrue(mp.getIntoCaseStatus());
+					GeneralUtility.reportLogScreenshot(GeneralUtility.printScreen(driver, "process_verification"));
+					//driver.quit();
+			
+					GeneralUtility.sendReporter("Test finish : successfully " + iteration + " " + methodName );
+					log.info("Test finish : successfully " + iteration + " " + methodName );
+
+				} catch (AssertionError ar) {
+					log.error(methodName + " Test result failed on assertion error: Please review log file");
+					GeneralUtility.sendReporter(methodName +  " Test result failed on assertion error: ");
+					GeneralUtility.reportLogScreenshot(GeneralUtility.printScreen(driver, "Failed_Assert " + methodName  ));
+					log.log(Level.ERROR, ar);
+					Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+				} catch (Exception ex) {
+					log.error(methodName + " Test result failed on assertion error: Please review log file");
+					GeneralUtility.sendReporter(methodName +  " Test result failed on assertion error: ");
+					GeneralUtility.reportLogScreenshot(GeneralUtility.printScreen(driver, "Failed_Assert " + methodName  ));
+					log.log(Level.ERROR, ex);
+					Reporter.getCurrentTestResult().setStatus(ITestResult.FAILURE);
+				}
+				
+				timestamp = new Timestamp(System.currentTimeMillis());
+				GeneralUtility.sendReporter("Test finish: Iteration: " + iteration +" time:" + timestamp);
+				log.info("Test finish: Iteration: " + iteration +" time:" + timestamp);
+			}
+	
+	
+	@AfterMethod
+	public void Exit_Clean_After_Test() throws IOException, InterruptedException {
+		log.info("After method ...");
+		driver.quit();
+		GeneralUtility.endOfTestDelimiter();
+	}
+
+	@AfterClass
+	public void End_Exectuion() throws IOException, InterruptedException {
+		log.info("After Class ...");
+		//GeneralUtility.tearDown(driver);
+		timestamp = new Timestamp(System.currentTimeMillis());
+		log.info("Test Finished: " + timestamp);
+	}
+	
+	
+}
+

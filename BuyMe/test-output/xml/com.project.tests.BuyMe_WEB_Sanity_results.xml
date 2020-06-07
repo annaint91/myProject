@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BuyMe_WEB"
+           tests="3"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="54.900">
+  <properties />
+  
+  
+            <testcase name="site_home_screen" time="40.034" classname="com.project.tests.BuyMe_WEB_Sanity" />
+                <testcase name="site_registration_screen" time="5.994" classname="com.project.tests.BuyMe_WEB_Sanity" />
+                <testcase name="getIntoSystem_Negative" time="8.872" classname="com.project.tests.BuyMe_WEB_Sanity" />
+      
+</testsuite>

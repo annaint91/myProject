@@ -1,0 +1,79 @@
+package top;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+
+import utility.MobileUtility;
+
+public class WoPage extends BasePage {
+
+	static final Logger log = LogManager.getLogger(WoPage.class.getName());
+
+	public WoPage(WebDriver driver) throws IOException {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+		
+	public boolean beginFlowWO(String type) throws Exception {
+		
+		log.info("Begin process of handling WO: ");
+		List<WebElement> woList1;
+		
+		
+		if (type.toLowerCase().contains("close")) {
+			driver.findElement(By.id("net.il.hot.android:id/closeWoSc")).click();
+			MobileUtility.Sleep(2);
+			woList1 = driver.findElements(By.id("net.il.hot.android:id/endTreatmentActivityMainTitle"));
+		}
+			
+		else {
+			driver.findElement(By.id("net.il.hot.android:id/startTreatmentBtn")).click();
+			MobileUtility.Sleep(2);
+			woList1 = driver.findElements(By.xpath("//android.widget.TextView[@text='החלפת ציוד קיים']"));
+		}
+			
+		
+		boolean bResult = (!woList1.isEmpty());
+		log.info("begin process with WO :" + bResult);
+		return bResult;
+
+	}
+	
+public boolean beginFlowCloseWO(String type) throws Exception {
+		
+		log.info("Begin process of handling WO: ");
+		List<WebElement> woList1;
+		
+		
+		if (type.toLowerCase().contains("close")) {
+			driver.findElement(By.xpath("//android.widget.Button[@text='תחילת טיפול']")).click();
+			MobileUtility.Sleep(15);
+			woList1 = driver.findElements(By.xpath("//android.widget.TextView[@text='הוספת ציוד מסוג ממיר HD']"));
+		}
+			
+		else {
+			driver.findElement(By.id("net.il.hot.android:id/startTreatmentBtn")).click();
+			MobileUtility.Sleep(2);
+			woList1 = driver.findElements(By.xpath("//android.widget.TextView[@text='החלפת ציוד קיים']"));
+		}
+			
+		
+		boolean bResult = (!woList1.isEmpty());
+		log.info("begin process with WO :" + bResult);
+		return bResult;
+
+	}
+
+	
+	
+
+}

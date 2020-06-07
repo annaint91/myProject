@@ -1,0 +1,69 @@
+package top;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.PageFactory;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.remote.MobileCapabilityType;
+import utility.MobileUtility;
+
+
+public class Login extends BasePage {
+
+	static final Logger log = LogManager.getLogger(Login.class.getName());
+
+	public Login(WebDriver driver) throws IOException {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public boolean doLogin(String user, String pass) throws Exception {
+		log.info("*****************************");
+		log.info("About to login, MAKE SURE YOU ARE NOT CONNECTED TO WIFI!");
+		log.info("*****************************");
+		driver.findElement(By.id("username")).sendKeys(user);
+		driver.findElement(By.id("password")).sendKeys(pass);
+		driver.findElement(By.id("login")).click();
+		MobileUtility.Sleep(30);
+			
+		
+		List <WebElement> we = driver.findElements(By.id("dialgo_ok_btn"));
+		if (we.size()>0)
+		{
+			
+			driver.findElement(By.id("dialgo_ok_btn")).click();
+			MobileUtility.Sleep(1);
+		}
+
+		//List<WebElement> weList = driver.findElements(By.id("net.il.hot.android:id/workOrderDateTotalCounterText"));
+		//log.info(weList.size());
+		
+		return true;
+	}
+	
+	public boolean verifySuccessfullLogin() throws Exception {
+		
+		String woList = driver.findElement(By.id("net.il.hot.android:id/workOrderDateTotalCounterText")).getText();
+		if (!woList.isEmpty()) {
+			return true;
+		}
+		else
+			return false;
+		
+	}
+	
+
+}

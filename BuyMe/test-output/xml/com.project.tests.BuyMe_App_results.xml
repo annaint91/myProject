@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BuyMe_App"
+           tests="4"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="82.224">
+  <properties />
+  
+  
+            <testcase name="app_howToSend" time="16.396" classname="com.project.tests.BuyMe_App" />
+                <testcase name="app_HomeScreen" time="18.153" classname="com.project.tests.BuyMe_App" />
+                <testcase name="app_SenderReciverInfo" time="27.695" classname="com.project.tests.BuyMe_App" />
+                <testcase name="app_intro_google" time="19.980" classname="com.project.tests.BuyMe_App" />
+      
+</testsuite>

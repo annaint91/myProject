@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Default test"
+           tests="1"
+           failures="1"
+           errors="0"
+           skipped="0"
+           time="11.663">
+  <properties />
+            <testcase name="app_swipe" time="11.663" classname="com.project.tests.Course_2">
+                <failure type="Unknown"
+                  message="Unknown"
+              />
+          </testcase>
+  
+  
+  
+</testsuite>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="City Site Sanity Run" parallel="tests">
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+		<listener class-name="com.inflectra.spiratest.addons.testnglistener.SpiraTestListener" />
+	</listeners>
+
+	<test thread-count="2" name="בדיקת שפיות על אפליקציית  עיריית רמת גן בכרום על מובייל">
+		<classes>
+			<class name="com.project.tests.SanityTestMobileChrome_RamatGan" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="TOP Daily Sanity" parallel="tests">
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+	</listeners>
+
+<!-- 	<packages> -->
+<!-- 		<package name="com.hotportal.tests" /> -->
+<!-- 	</packages> -->
+
+	<!-- Test Chrome-->
+	<test name="TOP Daily Sanity 1">
+		<classes>
+		       <class name="test.TOPHOT"/>
+		</classes>
+	</test> 
+
+</suite> <!-- Suite -->

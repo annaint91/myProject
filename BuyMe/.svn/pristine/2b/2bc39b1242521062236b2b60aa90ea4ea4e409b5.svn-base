@@ -1,0 +1,236 @@
+package com.project.pages;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
+
+import com.project.city.BasePage;
+
+import io.appium.java_client.android.AndroidDriver;
+
+import com.framework.utility.GeneralUtility;
+
+public class MainPage extends BasePage {
+
+	static final Logger log = LogManager.getLogger(MainPage.class.getName());
+	static String callNumber;
+
+	public MainPage(WebDriver driver) throws IOException {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public boolean searchFromApplication(String search) throws Exception {
+		boolean bVerify = false;
+
+		Actions act = new Actions(driver);
+
+		// Begin flow of the login
+		log.info("Begin the flow of the Search from application");
+		try {
+			
+			driver.findElement(By.xpath("//*[@text='חפש']")).click();
+
+			GeneralUtility.Sleep(3);
+			driver.findElement(By.className("android.widget.EditText")).sendKeys(search);
+
+			GeneralUtility.Sleep(3);
+			driver.findElement(By.xpath("//*[@text='search']")).click();
+			
+			
+			GeneralUtility.Sleep(5);
+			
+			click(By.xpath("//*[@resource-id='searchItem'][@index=3]"));
+			GeneralUtility.Sleep(5);
+			click(By.xpath("//*[@text='פתיחה']"));
+			
+			GeneralUtility.Sleep(5);
+			//bVerify = isObje
+			
+			String str = driver.getPageSource();
+			bVerify = str.contains("לצדך, ברגעים החשובים");
+			
+			
+		//return bVerify;
+
+		} catch (TimeoutException te) {
+			log.fatal("Exception received: ");
+			te.printStackTrace();
+			return false;
+		} catch (Exception e) {
+			log.fatal("Exception received: ");
+			e.printStackTrace();
+			return false;
+		}
+		if (!bVerify)
+			log.error("Create call failed in verify fields process");
+
+		return bVerify;
+	}
+
+	
+	
+	public boolean getIntoCaseStatus() throws Exception {
+		boolean bVerify = false;
+
+		//Actions act = new Actions(driver);
+
+		// Begin flow of the login
+		log.info("Begin the flow of the check case status");
+		try {
+
+			driver.findElement(By.xpath("//android.widget.FrameLayout//android.view.View[1]//android.view.View[2]/android.view.View[2]/android.view.View[3]/android.view.View[1]//android.view.View/android.view.View[5]")).click();
+			//WebElement we = driver.findElement(By.xpath("//android.widget.FrameLayout//android.view.View[1]//android.view.View[2]/android.view.View[2]/android.view.View[3]/android.view.View[1]//android.view.View/android.view.View[5]"));
+			GeneralUtility.Sleep(3);
+			
+			Actions act = new Actions(driver);
+			act.sendKeys(Keys.ARROW_DOWN).build().perform();
+			act.sendKeys(Keys.ARROW_DOWN).build().perform();
+			act.sendKeys(Keys.ARROW_DOWN).build().perform();
+						
+	
+			driver.findElement(By.xpath("//*[@text='למעקב הפניות שלי במוקד']")).click();
+			GeneralUtility.Sleep(10);
+			
+			
+			String str = driver.getPageSource();
+			bVerify = str.contains("כתובת");
+			
+			
+		//return bVerify;
+
+		} catch (TimeoutException te) {
+			log.fatal("Exception received: ");
+			te.printStackTrace();
+			return false;
+		} catch (Exception e) {
+			log.fatal("Exception received: ");
+			e.printStackTrace();
+			return false;
+		}
+		if (!bVerify)
+			log.error("Create call failed in verify fields process");
+
+		return bVerify;
+	}
+
+	
+	public String returnCallNumber() {
+		return callNumber;
+	}
+
+	
+	public boolean deleteCall(String callNumber) throws Exception {
+
+		// Verify the call number
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame("contentIFrame1");
+		boolean bVerify = verifyWLContainsText(By.xpath("//*[@id=\"pws_casenumber\"]/div[1]/span"), callNumber);
+
+		// בדיקת מנעול
+		if (bVerify) {
+			bVerify = IsObjectExist(By.xpath("//*[@id=\"pws_neighborhoodid\"]/span/img"));
+			bVerify = IsObjectExist(By.xpath("//*[@id=\"pws_public_cl\"]/img"));
+			bVerify = IsObjectExist(By.xpath("//*[@id=\"pws_casenumber\"]/span/img"));
+
+		}
+
+		driver.switchTo().defaultContent();
+
+		if (bVerify) {
+
+			Actions act = new Actions(driver);
+			act.doubleClick(driver.findElement(
+					By.xpath("//*[@id=\"incident|NoRelationship|Form|Mscrm.Form.incident.Delete\"]/span/a/img")))
+					.build().perform();
+
+			GeneralUtility.Sleep(2);
+			driver.switchTo().frame("InlineDialog_Iframe");
+
+			act = new Actions(driver);
+			act.click(driver.findElement(By.xpath("//*[@id=\"butBegin\"]/div"))).build().perform();
+			// clickJS(By.xpath("//li[@id='incident|NoRelationship|Form|Mscrm.Form.incident.Delete']"));
+		}
+
+		GeneralUtility.Sleep(4);
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame("contentIFrame0");
+		bVerify = verifyWLContainsText(By.xpath("//*[@id=\"gridBodyTable\"]/tbody/tr[2]/td"),
+				"אין רשומות פניה זמינות בתצוגה זו");
+
+		// Click on CRMDynamics logo
+		driver.switchTo().defaultContent();
+		clickJS(By.id("navTabLogoTextId"));
+
+		return bVerify;
+
+	}
+
+	public boolean createCall2() throws InterruptedException, IOException {
+		boolean createCall = false;
+
+		// Begin flow of the login
+		log.info("Begin the flow of the login");
+		try {
+
+			click(By.id("homeButtonImage"));
+			GeneralUtility.Sleep();
+			clickJS(By.xpath("//a[@id='CS']/span[@class='navActionButtonIconContainer']//img[@alt='שירות']"));
+			clickJS(By.xpath("//a[@id='CS']/span[@class='navActionButtonIconContainer']//img[@alt='שירות']"));
+			GeneralUtility.Sleep();
+			click(By.xpath("//*[@id=\"nav_cases\"]"));
+			createCall = IsObjectExist(By.id("crmGrid_divDataArea"));
+
+			createCall = true;
+		} catch (TimeoutException te) {
+			log.fatal("Exception received: ");
+			te.printStackTrace();
+			return false;
+		} catch (Exception e) {
+			log.fatal("Exception received: ");
+			e.printStackTrace();
+			return false;
+		}
+
+		return createCall;
+	}
+
+	public boolean logout() throws Exception {
+		boolean bLogout = false;
+
+		click(By.xpath("\\"));
+		log.info("Exit application");
+
+		bLogout = IsObjectExist(By.xpath("\\test"));
+
+		return bLogout;
+	}
+
+	public void formClick(WebElement we, String sValue) throws Exception {
+		Actions act = new Actions(driver);
+		clickJS(we);
+		GeneralUtility.Sleep(2);
+		act.sendKeys(we, sValue).build().perform();
+		GeneralUtility.Sleep();
+		act.sendKeys(we, Keys.ENTER).build().perform();
+	}
+
+	public void formSendKeys(WebElement we, String sValue) throws Exception {
+		Actions act = new Actions(driver);
+		clickJS(we);
+		GeneralUtility.Sleep(2);
+		act.sendKeys(we, sValue).build().perform();
+		GeneralUtility.Sleep();
+		act.sendKeys(we, Keys.ENTER).build().perform();
+	}
+}

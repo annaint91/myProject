@@ -1,0 +1,35 @@
+package com.project.test;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class REGEX {
+
+	public static void main(String[] args) {
+		
+		String s = "2011-10-20 525 14:28:55 10";
+		s = "סה\"כ פק\"עות להיום: 1 (סה\"כ 2)";
+	    Pattern p = Pattern.compile("(^|\\s)([0-9]+)($|\\s)");
+	    Matcher m = p.matcher(s);
+	    if (m.find()) {
+	        System.out.println(m.group(2));
+	    }
+		
+		
+		
+	    String totalPKA = "סה\"כ פק\"עות להיום: 1 (סה\"כ 2)";
+		
+		Pattern p1 = Pattern.compile("(^|\\s)([0-9]+)($|\\s)");
+		Matcher m1 = p1.matcher(totalPKA);
+		
+		//int i = 0; 
+		if (m1.find()) {
+			 System.out.println(m1.group(2));
+			}
+		//Pattern p = Pattern.compile("");
+	   // Matcher m = p.matcher(s);
+	  
+
+	}
+
+}

@@ -1,0 +1,115 @@
+package top;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
+
+import io.appium.java_client.android.AndroidElement;
+import utility.MobileUtility;
+
+public class Equipment extends BasePage {
+
+	static final Logger log = LogManager.getLogger(Equipment.class.getName());
+
+	public Equipment(WebDriver driver) throws IOException {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public boolean equipmentChange_Remove() throws Exception {
+
+		log.info("Begin process of Equipment replacment: ");
+		List<WebElement> woList1;
+
+		driver.findElement(By.xpath("//android.widget.TextView[@text='החלפת ציוד קיים']")).click();
+		MobileUtility.Sleep(2);
+		driver.findElement(By.id("net.il.hot.android:id/serial")).click();
+		MobileUtility.Sleep(2);
+		driver.findElement(By.xpath("//android.widget.TextView[@text='HOTBX1141000981']")).click();
+
+		MobileUtility.Sleep(2);
+		driver.findElement(By.id("net.il.hot.android:id/equipmentActionActivityDropReasonSpinner")).click();
+
+		MobileUtility.Sleep(2);
+		driver.findElement(By.xpath("//android.widget.TextView[@text='כללי']")).click();
+
+		MobileUtility.Sleep(2);
+		driver.findElement(By.id("net.il.hot.android:id/equipmentActionActivityConditionSpinner")).click();
+
+		MobileUtility.Sleep(2);
+		driver.findElement(By.xpath("//android.widget.TextView[@text='מרסט']")).click();
+
+		boolean bResult = true;// (!woList1.isEmpty());
+		log.info("finish equipment Change: Remove :" + bResult);
+		return bResult;
+
+	}
+
+	public boolean equipmentAddConvertor(String convertor, String smartCard) throws Exception {
+		
+		String methodName = "equipmentAddConvertor";
+		log.info("Begin process of Equipment replacment: ");
+		boolean bResult = false;
+		
+		List<WebElement> woList1;
+
+		driver.findElement(By.xpath("//android.widget.TextView[@text='הוספת ציוד מסוג ממיר HD']")).click();
+		MobileUtility.Sleep(1);
+		driver.findElement(By.xpath("//android.widget.TextView[@text='לחץ לבחירת ציוד להוספה']")).click();
+		MobileUtility.Sleep(1);
+		
+		boolean bFound = false;
+		
+		woList1 = driver.findElements(By.xpath("//android.widget.TextView[contains(@text,'CE')]"));
+		for (int i=0; i<woList1.size();i++) {
+			if (woList1.get(i).getText().contains(convertor)){
+				woList1.get(i).click();
+				bFound = true;
+				break;
+			}			
+		}
+		
+		if (bFound) {
+			bFound = false;
+			MobileUtility.Sleep(2);
+			driver.findElement(By.xpath("//android.widget.TextView[@text='לחץ לבחירת כרטיס חכם']")).click();
+			MobileUtility.Sleep(2);
+			woList1 = driver.findElements(By.xpath("//android.widget.TextView[contains(@text,'000')]"));
+			
+			for(int i = 0; i<woList1.size();i++) {
+				 System.out.println(woList1.get(i).getText());
+				 if (!woList1.get(i).getText().contains("תקול")&& (woList1.get(i).getText().contains(smartCard))) {
+					 woList1.get(i).click();
+					 bFound = true;
+					 break; 
+				 }
+					
+				 }
+			
+		
+		}
+		
+		if (bFound) {
+		MobileUtility.Sleep(2);
+		driver.findElement(By.xpath("//android.widget.TextView[@content-desc='שמור']")).click();
+		MobileUtility.Sleep(2);
+		
+		driver.findElement(By.xpath("//android.widget.TextView[@content-desc='שלח']")).click();
+		bResult = true;// (!woList1.isEmpty());
+		}
+		
+		log.info("finish " + methodName);
+		return bResult;
+
+	}
+
+}

@@ -1,0 +1,259 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>CityApp</groupId>
+	<artifactId>CityApp</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons.io/commonsIO -->
+		<!-- https://mvnrepository.com/artifact/org.apache.directory.studio/org.apache.commons.io -->
+
+		<!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.14.3</version>
+		</dependency>
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.uncommons/reportng -->
+		<dependency>
+			<groupId>org.uncommons</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.1.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.testng/reportng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+
+
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.uncommons</groupId> -->
+		<!-- <artifactId>reportng</artifactId> -->
+		<!-- <version>1.1.4</version> -->
+		<!-- <scope>compile</scope> -->
+		<!-- <exclusions> -->
+		<!-- <exclusion> -->
+		<!-- <groupId>org.testng</groupId> -->
+		<!-- <artifactId>testng</artifactId> -->
+		<!-- </exclusion> -->
+		<!-- </exclusions> -->
+		<!-- </dependency> -->
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.11.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.11.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/cglib/cglib-nodep -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.2.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/ch.ethz.ganymed/ganymed-ssh2 -->
+		<dependency>
+			<groupId>ch.ethz.ganymed</groupId>
+			<artifactId>ganymed-ssh2</artifactId>
+			<version>build210</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.oracle/ojdbc -->
+
+
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.14.0</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17-beta1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17-beta1</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.uncommons/reportng -->
+		<dependency>
+			<groupId>inflectra</groupId>
+			<artifactId>inflectra</artifactId>
+			<version>1.5.1</version>
+			<systemPath>C:\share\downloads\Automation\TestNG\TestNGListener.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+
+
+
+		<!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>7.3.0</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>CityFramework</groupId>
+			<artifactId>CityFramework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+
+
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<!--<outputDirectory>bin/</outputDirectory> -->
+
+					<inputEncoding>UTF-8</inputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
+					<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea
+						-Dfile.encoding=UTF-8</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+
+
+				<!-- <configuration> -->
+
+				<!-- <suiteXmlFiles> -->
+				<!-- <suiteXmlFile>HotPortal_Stage.xml</suiteXmlFile> -->
+				<!-- <suiteXmlFile>${xmlSuiteFile}</suiteXmlFile> -->
+				<!-- </suiteXmlFiles> -->
+				<!-- </configuration> -->
+
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<!--<outputDirectory>bin/</outputDirectory> -->
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<encoding>UTF-8</encoding>
+
+					<encoding>UTF-8</encoding>
+					<inputEncoding>UTF-8</inputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
+					<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea
+						-Dfile.encoding=UTF-8</argLine>
+					<reportsDirectory>${reportsDirectory}</reportsDirectory>
+					<workingDirectory>src/</workingDirectory>
+					<suiteXmlFiles>
+						<suiteXmlFile>C:\Workspace\HotTop\TOP.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<!-- Setting ReportNG listeners -->
+					<properties>
+
+						<property>
+							<name>usedefaultlisteners</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>listener</name>
+							<value>org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter</value>
+						</property>
+
+					</properties>
+				</configuration>
+
+			</plugin>
+
+		</plugins>
+
+	</build>
+</project>

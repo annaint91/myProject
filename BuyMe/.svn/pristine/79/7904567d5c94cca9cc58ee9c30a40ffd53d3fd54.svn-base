@@ -1,0 +1,111 @@
+package top;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+
+import utility.MobileUtility;
+
+public class MainPage extends BasePage {
+
+	static final Logger log = LogManager.getLogger(MainPage.class.getName());
+
+	public MainPage(WebDriver driver) throws IOException {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public boolean verifyLogin() throws Exception {
+
+		List<WebElement> we = driver.findElements(By.id("net.il.hot.android:id/workOrderDateTotalCounterText"));
+		if (we.size() > 0)
+			return true;
+		else
+			return false;
+
+	}
+
+	public boolean verifyWOexist() throws Exception {
+		String totalWO = driver.findElement(By.id("net.il.hot.android:id/workOrderDateTotalCounterText")).getText();
+
+		// Regex
+		String wo = "";
+		Pattern p = Pattern.compile("(^|\\s)([0-9]+)($|\\s)");
+		Matcher m = p.matcher(totalWO);
+		if (m.find()) {
+			wo = m.group(2);
+		} else {
+			log.error("Could not verify that their is WO in main table");
+			return false;
+		}
+
+		// Split
+		// String[] pka1 = totalPKA.split(": ");
+		// String[] pka2 = pka1[1].split(" ");
+
+		int totalWo = Integer.parseInt(wo);
+
+		if (totalWo > 0) {
+			return true;
+		} else {
+			log.error("*****No WO avaliable   !!!");
+			return false;
+		}
+			
+
+	}
+	
+	public boolean getIntoWO(int woNum) throws Exception {
+		MobileUtility.Sleep(2);
+		
+		try {
+			driver.findElement(By.id("dialgo_ok_btn")).click();
+		}catch(Exception e) {
+			log.info("No pop up");
+		}
+		
+		List<WebElement> woList1 = driver.findElements(By.xpath("//android.widget.TextView[@text='CN']"));
+		log.info("Number of WO: " +woList1.size());
+	
+		MobileUtility.Sleep(2);
+		woList1.get((woNum-1)).click();
+		woList1.get((woNum-1)).click();
+			
+		MobileUtility.Sleep(2);
+		
+		//By.xpath("//android.widget.TextView[@text='CN']")
+		//List<WebElement> woList2 = driver.findElements(By.id("net.il.hot.android:id/closeWoSc"));
+		List<WebElement> woList2 = driver.findElements(By.xpath("//android.widget.Button[@text='תחילת טיפול']"));
+		boolean bResult = (!woList2.isEmpty());
+		
+		log.info("get inot wo ? :" + bResult);
+		return bResult;
+
+	}
+
+	public boolean verifyPhoneCallOptionInWO(int woNum) throws Exception {
+		List<WebElement> woList1 = driver.findElements(By.id("net.il.hot.android:id/workOrderItemTypeTitle"));
+		//log.info(woList1.size());
+	
+		MobileUtility.Sleep(2);
+		woList1.get((woNum-1)).click();
+	
+		MobileUtility.Sleep(2);
+		driver.findElement(By.id("net.il.hot.android:id/workOrderItemPhoneButton")).click();
+		
+		MobileUtility.Sleep(2);
+		driver.findElement(By.xpath("//android.widget.Button[@text='ביטול']")).click();
+		
+		return true;
+
+	}
+
+
+}
